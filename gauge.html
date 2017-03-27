@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>仪表盘</title>
+    <link href="../../../themes/lightblue/p.css" rel="stylesheet" />
+    <link href="../../../themes/lightblue/jqgrid/ui.jqgrid.css" rel="stylesheet" />
+    <link href="../../../themes/lightblue/jqueryui/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" />
+
+    <script src="scripts/jquery-1.9.1.min.js"></script>
+    <script src="scripts/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="scripts/SampleChart.js"></script>
+    <script>
+        $(function () {
+            getChart();
+        });
+
+        function getChart() {
+            var data = '{"colnames":["二级业务","终端侧得分"],"rows":[{"col0":"微信","col1":"50"}]}';
+            bindChart('four1', {
+                DataSource: eval("(" + data + ")"),
+                YDataColIndex: "1",
+                GaugeColor: [[0.8, '#48b'], [1, '#228b22']]
+            });
+            bindChart('four2', {
+                GaugeValue: '90',
+                GaugeName: '无线侧得分',
+                GaugeColor: [[0.4, '#ff4500'], [0.7, '#48b'], [1, '#228b22']]
+            });
+            bindChart('four3', {
+                GaugeValue: '40',
+                GaugeName: '核心侧得分',
+                GaugeColor: [[0.5, '#ff4500'], [1, '#228b22']],
+                YMinValue: 20,
+                YMaxValue: 200
+            });
+            bindChart('four4', {
+                GaugeValue: '60',
+                GaugeName: 'SP侧得分',
+                GaugeSplitColor: [[20, '#ff4500'], [80, '#48b'], [null, '#228b22']]
+            });
+        }
+
+        function bindChart(div, option) {
+            var opts = $.extend(true, {
+                YFormatType: "1000",
+                YDecimals: '2',
+                BgColor: '#e2eefc',
+                BorderColor: '#7D7DFF',
+                ClickEvent: [{ click: gaugeClick }],
+                ChartType: "gauge"
+            }, option);
+
+            //dss.samplechart(div, opts);
+            $("#" + div).SampleChart(opts);
+        }
+
+        function gaugeClick(xValue, yValue, value) {
+            alert(xValue + "：" + value);//样例：“终端侧得分：50”
+        }
+    </script>
+</head>
+<body>
+    <div class="captionWithoutIcon">
+        全省四侧得分
+    </div>
+    <div id="four">
+        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+            <tr>
+                <td style="width: 25%">
+                    <div id="four1" style="height: 270px; width: 100%;"></div>
+                </td>
+                <td style="width: 25%">
+                    <div id="four2" style="height: 270px; width: 100%;"></div>
+                </td>
+                <td style="width: 25%">
+                    <div id="four3" style="height: 270px; width: 100%;"></div>
+                </td>
+                <td style="width: 25%">
+                    <div id="four4" style="height: 270px; width: 100%;"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
